@@ -75,7 +75,7 @@ def build_qb_dataset(player, team_stats, schedule_df):
     qbs = qbs.sort_values(["player_id", "season", "week"])
 
 
-    # 3. MERGE SINGLE-GAME OPPONENT DEFENSIVE STATS
+    # MERGE SINGLE-GAME OPPONENT DEFENSIVE STATS
     defense_cols = [
         "season", "week", "team",
         "def_sacks",
@@ -104,7 +104,7 @@ def build_qb_dataset(player, team_stats, schedule_df):
     qbs_merged = qbs_merged.drop(columns=["team_y"])
     qbs_merged = qbs_merged.rename(columns={"team_x": "team"})
 
-    # 4. ADD OPPONENT DEFENSIVE ROLLING FEATURES
+    # ADD OPPONENT DEFENSIVE ROLLING FEATURES
     defense_raw = team_stats[defense_cols].copy()
     defense_raw = defense_raw.sort_values(["team", "season", "week"])
 
@@ -185,7 +185,7 @@ def build_qb_dataset(player, team_stats, schedule_df):
 
     qbs_merged = qbs_merged.rename(columns=rename_map)
 
-    # 5. ADD TEAM OFFENSIVE ROLLING FEATURES
+    # ADD TEAM OFFENSIVE ROLLING FEATURES
     team_off_stats = [
         "attempts",
         "completions",
@@ -264,7 +264,7 @@ def build_qb_dataset(player, team_stats, schedule_df):
 
     qbs_merged = qbs_merged.rename(columns=rename_map)
 
-    # 6. ADD is_home FLAG
+    # ADD is_home FLAG
     schedule = schedule_df[["season", "week", "home_team", "away_team"]].drop_duplicates()
 
     schedule_home = schedule.copy()
@@ -289,7 +289,7 @@ def build_qb_dataset(player, team_stats, schedule_df):
 
     qbs_merged = qbs_merged.sort_values(["player_id", "season", "week"]).reset_index(drop=True)
 
-    # 7. ADD QB ROLLING FEATURES
+    # ADD QB ROLLING FEATURES
     qbs_merged = qbs_merged.sort_values(["player_id", "season", "week"])
 
     qb_roll_stats = {
@@ -328,7 +328,7 @@ def build_qb_dataset(player, team_stats, schedule_df):
             .shift(1).reset_index(level=[0, 1], drop=True)
         )
 
-    # 8. CLIP OUTLIERS (EPA & CPOE)
+    # CLIP OUTLIERS (EPA & CPOE)
     qbs_merged["qb_passing_epa"] = qbs_merged["qb_passing_epa"].clip(-10, 10)
     qbs_merged["qb_rushing_epa"] = qbs_merged["qb_rushing_epa"].clip(-10, 10)
     qbs_merged["passing_cpoe"]   = qbs_merged["passing_cpoe"].clip(-10, 10)
