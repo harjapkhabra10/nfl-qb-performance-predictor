@@ -15,7 +15,7 @@ def load_predictions() -> pd.DataFrame:
     return run_full_pipeline()
 
 
-st.title("🏈 QB Passing Projections — 2025 Weeks 13–18")
+st.title("QB Passing Projections — 2025 Weeks 13–18")
 st.caption("Predicting attempts, completions, yards, comp%, and YPA for starting QBs.")
 
 with st.spinner("Building dataset, training models, and generating predictions..."):
